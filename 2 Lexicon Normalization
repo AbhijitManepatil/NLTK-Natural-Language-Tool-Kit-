@@ -1,0 +1,24 @@
+# Another type of textual noise is about the multiple
+# representation eibited by single word
+# for exaple paly, player, playing, played, plays, playing are
+# the different variance of the word play
+
+
+####### Lexicon Normalization
+########## 1) Steaming : Remove (ing, ly, es, s etc)
+########## 2) Lemmatization : Step by step procedure of obtaing root of the word. It uses vocabulary(dictionary) and morphological analysis(Word structure & Grammer)
+from nltk.stem.wordnet import WordNetLemmatizer
+lem=WordNetLemmatizer()  #use step by step procedure to obtain root word, use dictionary, grammmer, word structure
+
+from nltk.stem.porter import PorterStemmer
+stem=PorterStemmer() #Steamming remove ing, ly
+
+word="multiplying"
+print("\n Appling lemmitizer a Step by step procedure to obtain root word, use dictiory, grammer, word structure: \n")
+out=lem.lemmatize(word, "v")
+print(out)
+
+# Steamming
+print("\n Steamming: \n")
+st=stem.stem(out)
+print(st)
