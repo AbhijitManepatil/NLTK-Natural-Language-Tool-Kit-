@@ -1,0 +1,41 @@
+
+############################################################
+##### 3.1. Statistical Features############################
+##########################################################
+
+# Text data can also be quantified directly into numbers using several techniques
+
+
+############# A. Term Frequency - Inverse Document Frequency (TF-IDF)################
+
+# Convert text documents into vector models on the basis of occrance of word.
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+obj=TfidfVectorizer()
+corpus=['This is sample document', 'another random document', 'third sample document text']
+X=obj.fit_transform(corpus)
+print(X)
+
+#########################################
+#### B. Count/Density/Readability Features ###########3
+#####################################################
+# Count or Density based features can also be used in models and analysis. These features might seem trivial but shows a great impact in learning models. Some of the features are: Word Count, Sentence Count, Punctuation Counts and Industry specific word counts..
+
+
+#################################################
+## 3.2 Word Embedding (Text Vector)#############
+#################################################
+
+## Word as a vector
+# Word embedding is the modern way of representing words as vectors.
+#The aim of word embedding is to redefine the high dimensional word features into low dimensional feature vectors by preserving the contextual similarity in the corpus. They are widely used in deep learning models such as Convolutional Neural Networks and Recurrent Neural Networks.
+#Word2Vec and GloVe are the two popular models to create word embedding of a text. These models takes a text corpus as input and produces the word vectors as output.
+
+from gensim.models import Word2Vec
+sentence1=[['data', 'Science'], ['Vidya', 'science','data','analytics'],['machine','lerning'],['deep','learning']]
+
+#train the model on your corpus
+model=Word2Vec(sentence1, min_count=1)
+
+print( model.similarity('data','Science'))
+print(model['learning'])
