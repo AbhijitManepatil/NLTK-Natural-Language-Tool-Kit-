@@ -1,0 +1,65 @@
+import re  #re for regular expression
+
+#Regular expression used for the purpose of the Text data Cleaning
+
+# 1. re.match(pattern, string)
+# This function finds the match if it occurs at the start of the string only
+
+result=re.match(r'Abhi', 'Abhi is a Data Scientist')
+#use r at the start of pattern string, it represent python raw string
+print(result)  #it show the pattern is found or not
+
+print(result.group(0)) #it prints the pattern
+
+#Now find 'Data'
+
+result1=re.match(r'Data', 'Abhi is a Data Scientist')
+print(result1)  #output will be none
+
+#print(result1.group(0)) not display because it only represnt the match() starting string
+
+#So there are methods like start() and end()
+
+
+
+# 2. re.search(pattern, string)
+#Search along with the string not only the beginning and stat position only
+
+
+result3=re.search(r'Abhi', 'Abhi is a Data Scientist')
+print(result3)
+print("Search method\n")
+print(result3.group(0))
+
+result3=re.search(r'Data', 'Abhi is a Data Scientist')
+print(result3)
+print("Search method\n")
+print(result3.group(0))
+# Search any where in the string but only return the first occurance of the string
+
+#3. findall(patter, string)
+
+result4=re.findall(r'Abhi', 'Abhi is a Data Scientist/ Abhi')
+print(result4)
+
+#4. re.split(pattern, string, [maxsplit=0])
+#This method helps to split string by the occurances of the given pattern
+
+result5=re.split(r'i', 'Abhijit')
+print(result5)
+
+
+#5. re.sub(pattern, repl, string)
+#It helps in search pattern and replace it with new pattern
+
+result6=re.sub(r'scientist', 'Analyst','Abhi is a Data scientist')
+print("This is find and replcae using sub() :\n ")
+print(result6)
+
+
+#6. re.compile(pattern, repl, string)
+
+
+
+
+
