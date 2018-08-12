@@ -1,0 +1,171 @@
+#  To analyse the data(Text) need to be converted in to a features( Variable)
+
+# various techniques are used to convert text to features
+
+# Technique 1. Syntactic Parsing:
+# Syntactic pasing invole analysis of words in the sentence for GRAMMER
+
+#Every relation can be reprented in the form of triplet
+# (relation, governor, dependent)
+
+#the relations are defined with the tree form of structure and from that features where generated
+#check for StandfordCoreNLp
+
+
+#############################################################
+###################2. Part of speech tagging################
+###########################################################
+#pos tags( nouns, verb, adjective, adverbs) are seprated out from the text.
+
+from nltk import word_tokenize, pos_tag
+text="I am Abhijit C. Manepatil leaning Natural language processing for the purpose of the to become a @ Data Scientist"
+token=word_tokenize(text)
+print(token)  #tokens are generated in the form of list
+print(token[1:5])
+print("\n Pos tags in the given texts: ")
+pos=pos_tag(token)  #pos tags: Noun, verb, adverb, adjective
+print(pos)
+#############################################################
+################ 2.1 Word sense disambiguation:##############
+# same words with different meaning
+# I) "please book my flight to Delhi
+# II) "I am going to read this book in flight"
+
+# In I) book -Verb
+#   II) book - Noun
+
+from nltk import word_tokenize, pos_tag
+
+text1="Please book my flight for Delhi"
+text2="I am going to read this book in the flight"
+t1=word_tokenize(text1)
+t2=word_tokenize(text2)
+print("1st Sentance where book-Verb: ")
+print(pos_tag(t1))
+print("2nd Sentence where book-Noun: ")
+print(pos_tag(t2))
+# above output show both book is Noun
+# So this kind of special case use Lesk Algo.
+
+
+##############################################################
+##############2.2: Importing word based features##############
+# Learning model could learn different contexts of a word when used word as the features, However if the part of speech tag (pos_tag) is linked with them, the context is preseved, thus making a strong features from the text.
+
+###Sentence: "Book my flight, I will read this book"
+sentence="book my flight, I will read this book"
+
+###Tokens=(books,2), (my,1), (fight,1)....
+
+tokens=word_tokenize(sentence)
+print(tokens)
+
+### Tokens with POS (Part of speech)=(book-VB-1),(my-PRP-1) ....
+
+pos1=pos_tag(tokens)
+print("\n Pos tags with the tokens:")
+print(pos1)
+
+# NOTE:here is the concept in theory is explained for implimentation progs are done by self need to improve, not getting counts of the tokens
+
+#### Frequency Distribution: to make a word counts
+from nltk.probability import FreqDist
+
+freq_count=FreqDist(pos1)
+print("\n Frequence distribution: ")
+print(freq_count.most_common(10))
+
+
+
+####################################################################
+################# 3. Entity Extraction ( Entities as features)##
+###############################################################
+
+# Entity Detection Algorithms are used to detect and identify the entities for the features
+
+#The applicability of entity detection can be seen in the automated chat bots, content analyzers and consumer insights.
+
+# Example <- Thursday<- Date
+###          night<- Time
+####         Sambhaji Chouk<- Location
+####         Abhijit <- Name
+#########################
+
+################# 3.1 Name Entiry Recognition (NER)###########
+#### Process of detecting entities such as : name, Location name, Company Name etc from the text is called NER
+
+#### Sentence: Abhi, the manager of Google Inc. is walking in the street of new york.
+## Named Entities –  ( “person” : “Abhi” ), (“org” : “Google Inc.”), (“location” : “New York”)
+#A typical NER model consists of three blocks:
+
+#1. Noun Phrase identification: Get detailed nouns from pos
+#2. Phrase Classification: identification of the nouns (Names, location) from google map, wikipedia etc.
+#3. Entity disambiguation: Add verification layer for the confirmation of the classification use Knowledge graphs: Google Knowledge graph, IBM Watson, Wikipedia
+
+#### separate out Nouns from the sentence :
+
+se1="Abhijit C. Manepatil is a Data Scientist"
+tok=word_tokenize(se1)
+tag=pos_tag(tok)
+length=len(tag)-1
+print(length)
+a=list()
+
+print(" Hi cheacking: ")
+print(tag)
+print(tag[0])
+print(tag[1])
+print(tag[0][0])
+print(tag[0][1])
+print(" Hi")
+print(tag[3][1])
+
+for i in range(0,length):
+    log=(tag[i][1][0]=='N')
+    if log==True:
+      a.append(tag[i][0])
+
+print("Printing Nouns from the Text: ")
+print(a)
+print(a[0])
+
+
+
+
+##############################################################
+####### 3.2 Topic Modeling##################################
+#####################################################3
+
+# Topic modeling is a process of automatically identifying the topics present in a text corpus, it derives the hidden patterns among the words in the corpus in an unsupervised manner. Topics are defined as “a repeating pattern of co-occurring terms in a corpus”. A good topic model results in – “health”, “doctor”, “patient”, “hospital” for a topic – Healthcare, and “farm”, “crops”, “wheat” for a topic – “Farming”.
+#
+# Latent Dirichlet Allocation (LDA) is the most popular topic modelling technique, Following is the code to implement topic modeling using LDA in python.
+
+doc1 = "Sugar is bad to consume. My sister likes to have sugar, but not my father."
+doc2 = "My father spends a lot of time driving my sister around to dance practice."
+doc3 = "Doctors suggest that driving may cause increased stress and blood pressure."
+doc_complete = [doc1, doc2, doc3]
+doc_clean = [doc.split() for doc in doc_complete]
+
+#import gensim from gensim
+#import corpora
+
+# Creating the term dictionary of our corpus, where every unique term is assigned an index.
+dictionary = corpora.Dictionary(doc_clean)
+
+# Converting list of documents (corpus) into Document Term Matrix using dictionary prepared above.
+doc_term_matrix = [dictionary.doc2bow(doc) for doc in doc_clean]
+
+# Creating the object for LDA model using gensim library
+Lda = gensim.models.ldamodel.LdaModel
+
+# Running and Training LDA model on the document term matrix
+ldamodel = Lda(doc_term_matrix, num_topics=3, id2word = dictionary, passes=50)
+
+# Results
+print(ldamodel.print_topics())
+
+
+
+
+
+
